@@ -1,6 +1,6 @@
 <?php
 	require_once(dirname(__FILE__)."/Eassy.class.php");
-	if (!isset($_POST['action']))
+	if (!isset($_GET['action']))
 		die("false");
 	$app = new App();
 	$user = new User();
@@ -58,6 +58,8 @@
 		break;
 		case "getList":
 			$type = isset($_POST['type'])?$_POST['type']:false;
+			$limit = isset($_POST['limit'])?$_POST['limit']:"";
+			$offset = isset($_POST['offset'])?$_POST['offset']:"";
 			if ($type == "false")
 				$type = false;
 			if ($type == "true")
@@ -67,7 +69,7 @@
 				else
 					die("false");
 			}
-			$e = $eassy->getList($type);
+			$e = $eassy->getList($type, $limit, $offset);
 			if (!$e)
 				die("false");
 			else

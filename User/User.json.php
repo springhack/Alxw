@@ -1,6 +1,6 @@
 <?php
 	require_once(dirname(__FILE__)."/User.class.php");
-	if (!isset($_POST['action']))
+	if (!isset($_GET['action']))
 		die("false");
 	$app = new App();
 	$user = new User();

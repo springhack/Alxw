@@ -21,14 +21,17 @@
 				", $sql);
 			}
 		}
-		public function getList($type = false)
+		public function getList($type = false, $limit = "", $offset = "")
 		{
 			global $sql;
 			$query_str = "SELECT tid FROM Eassy";
 			if ($type == false)
 				$query_str .= " WHERE type <> '草稿'";
 			if ($type != false && $type != true)
-				$query_str .= " WHERE type  '".$type."'";
+				$query_str .= " WHERE type = '".$type."'";
+			$query_str .= " ORDER BY time DESC";
+			if ($limit != "")
+				$query_str .= " LIMIT ".$limit.", ".$offset;
 			$result = mysql_query($query_str, $sql);
 			$ret = array();
 			while($row = mysql_fetch_array($result))
