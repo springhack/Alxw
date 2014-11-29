@@ -49,7 +49,15 @@
 				$json = serialize(json_decode($_POST['json']));
 			else
 				$json = "";
-			if ($user->userRenew($_POST['user'], $_POST['pass'], $json))
+			if (isset($_POST['power']))
+			{
+				if ($user->getPower() == 0)
+					$power = $_POST['power'];
+				else
+					die("false");
+			} else
+				$power = 1;
+			if ($user->userRenew($_POST['user'], $_POST['pass'], $json, $power))
 				die("true");
 			else
 				die("false");
@@ -70,6 +78,13 @@
 				die("false");
 			else
 				die(json_encode($json));
+		break;
+		case "getUserList":
+			$list = $user->getUserList();
+			if (!$list)
+				die("false");
+			else
+				die(json_encode($list));
 		break;
 		default:
 			die("false");

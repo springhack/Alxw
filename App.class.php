@@ -20,7 +20,7 @@
 		}
 		public function onFinish()
 		{
-			die("");
+			die();
 		}
 		public function errorMsg($msg = "")
 		{

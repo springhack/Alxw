@@ -11,6 +11,7 @@
 					(
 						user text,
 						pass text,
+						power int,
 						json longtext
 					) DEFAULT CHARSET = UTF8; 
 				", $sql);
@@ -36,7 +37,18 @@
 		}
 		public function getUser()
 		{
+			if (!$this->isLogin())
+				return false;
 			return $_SESSION['user'];
+		}
+		public function getUserList()
+		{
+			global $sql;
+			$result = mysql_query("SELECT user FROM Users", $sql);
+			$ret = array();
+			while($row = mysql_fetch_array($result))
+				$ret[] = $row['user'];
+			return $ret;
 		}
 		public function getPass($user = NULL)
 		{
@@ -51,8 +63,29 @@
 					break;
 				}
 				return false;
-			} else
+			} else {
+				if (!$this->isLogin())
+					return false;
 				return $_SESSION['pass'];
+			}
+		}
+		public function getPower($user = NULL)
+		{
+			global $sql;
+			if ($user == NULL)
+			{
+				if (!$this->isLogin())
+					return false;
+				$user = $_SESSION['user'];
+			}
+			$result = mysql_query("SELECT power FROM Users 
+									WHERE user = '".$user."'", $sql);
+			while($row = mysql_fetch_array($result))
+			{
+				return $row['power'];
+				break;
+			}
+			return 1;
 		}
 		public function userLogin($user, $pass)
 		{
@@ -72,9 +105,11 @@
 		{
 			$_SESSION = array();
 			session_destroy();
+			if ($Config['UYAN_SETTING']['CAN_USE'])
+				setcookie('syncuyan', 'logout');
 			return true;
 		}
-		public function userRegister($user, $pass, $json)
+		public function userRegister($user, $pass, $json, $power = 1)
 		{
 			global $sql;
 			$result = mysql_query("SELECT user FROM Users 
@@ -88,10 +123,10 @@
 				$json = addslashes($json);
 			
 			mysql_query("INSERT INTO Users
-							VALUES ('".$user."', '".$pass."', '".$json."')", $sql);
+							VALUES ('".$user."', '".$pass."', ".$power.", '".$json."')", $sql);
 			return true;
 		}
-		public function userRenew($user, $pass, $json)
+		public function userRenew($user, $pass, $json, $power = 1)
 		{
 			global $sql;
 			$result = mysql_query("SELECT user FROM Users 
@@ -100,7 +135,7 @@
 				$json = addslashes($json);
 			while($row = mysql_fetch_array($result))
 			{
-				mysql_query("UPDATE Users SET pass = '".$pass."', json = '".$json."'
+				mysql_query("UPDATE Users SET pass = '".$pass."', power = ".$power.", json = '".$json."'
 								WHERE user = '".$user."'", $sql);
 				$_SESSION['pass'] = $pass;
 				return true;

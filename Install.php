@@ -12,6 +12,6 @@
 		die("Error create database!");
 	$app = new App();
 	$user = new User();
-	$user->userRegister($Config['AUTO_USER'], $Config['AUTO_PASS'], "");
+	$user->userRegister($Config['AUTO_USER'], $Config['AUTO_PASS'], "", 0);
 	die("<center>Install finished.</center>");
 ?>

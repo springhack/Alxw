@@ -50,6 +50,8 @@
 		case "getEassy":
 			if (!isset($_POST['tid']))
 				die("false");
+			if (!$user->str_check($_POST['tid']))
+				die("false");
 			$e = $eassy->getEassy($_POST['tid']);
 			if (!$e)
 				die("false");
