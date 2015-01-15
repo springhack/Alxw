@@ -11,6 +11,7 @@ function processBar(id, width, height, color, borderColor)
 	if (borderColor == undefined)
 		borderColor = "#000";
 	element.innerHTML = "";
+	element.style.display = "";
 	element.style.border = "1px solid " + borderColor
 	element.style.width = width + "px";
 	element.style.height = height + "px";
@@ -23,7 +24,7 @@ function processBar(id, width, height, color, borderColor)
 	this.setProcess = function (process) {
 			childElement.style.width = parseInt(full*process) + "px";
 			if (this.getProcess() == 1)
-				callback();
+				callback(element);
 		}
 	this.getProcess = function () {
 			return (parseFloat(childElement.style.width)/full);
@@ -33,5 +34,10 @@ function processBar(id, width, height, color, borderColor)
 		}
 	this.removeSelf = function () {
 			element.style.display = "none";
+		}
+	this.autoProcess = function (delay) {
+			$(childElement).animate({width : full}, delay, function () {
+					callback(element);
+				});
 		}
 }

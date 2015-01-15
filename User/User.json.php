@@ -6,6 +6,12 @@
 	$user = new User();
 	switch ($_GET['action'])
 	{
+		case "isLogin":
+			if ($user->isLogin())
+				die("true");
+			else
+				die("false");
+		break;
 		case "login":
 			if (!isset($_POST['user']) || !isset($_POST['pass']))
 				die("false");
