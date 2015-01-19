@@ -2,6 +2,7 @@
 	require_once(dirname(__FILE__)."/Config.php");
 	class App {
 		private $version = "beta v0.1";
+		public static $Tools = NULL;
 		public function __construct()
 		{
 			global $sql;
@@ -21,6 +22,12 @@
 		public function onFinish()
 		{
 			die();
+		}
+		public static function loadMod($mod)
+		{
+			require_once(dirname(__FILE__)."/".$mod."/".$mod.".class.php");
+			if ($mod == "Tools")
+				App::$Tools = new Tools();
 		}
 		public function errorMsg($msg = "")
 		{

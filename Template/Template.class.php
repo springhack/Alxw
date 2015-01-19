@@ -1,9 +1,20 @@
 <?php
 	class Template {
-		private $str = "";
+		private $file = "";
 		public function __conteructure($tpl)
 		{
-			$this->str = fule_get_contents("../res/tpl/php/".$tpl.".php");
+			$file = dirname(__FILE__)."/../res/tpl/php/".$tpl.".php";
+			if (!file_exists($file))
+				return false;
+			$this->file = $file;
+			return $this;
+		}
+		public function show($o = false)
+		{
+			if ($o)
+				echo file_get_contents($this->file);
+			else
+				include($this->file);
 		}
 	}
 ?>

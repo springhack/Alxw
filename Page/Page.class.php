@@ -1,6 +1,6 @@
 <?php
 	require_once(dirname(__FILE__)."/../App.class.php");
-	require_once(dirname(__FILE__)."/../User/User.class.php");
+	App::loadMod("User");
 	class Page {
 		public function __construct()
 		{

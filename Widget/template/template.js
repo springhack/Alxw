@@ -1,7 +1,7 @@
 // JavaScript Document
 var template = function (tpl) {
 		var str = $.ajax({
-				url : "../../res/tpl/html/" + tpl + ".html",
+				url : "Template/Template.json.php?action=getTemplate&tpl=" + tpl,
 				async : false,
 				type : GET,
 				dataType :"text"
@@ -30,6 +30,7 @@ var template = function (tpl) {
 			};
 		this.option = function (opt) {
 				str = compile(str, opt);
+				return this;
 			};
 		this.output = function () {
 				return str;
